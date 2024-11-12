@@ -1,14 +1,11 @@
-// App.jsx
-import React, { lazy, Suspense } from "react";
+import React, { Suspense, lazy } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Navigation from "./components/Navigation";
 
-const HomePage = lazy(() => import("./components/HomePage"));
-const MoviesPage = lazy(() => import("./components/MoviesPage"));
-const MovieDetailsPage = lazy(() => import("./components/MovieDetailsPage"));
-const MovieCast = lazy(() => import("./components/MovieCast"));
-const MovieReviews = lazy(() => import("./components/MovieReviews"));
-// const NotFoundPage = lazy(() => import("./components/NotFoundPage"));
+const HomePage = lazy(() => import("./pages/HomePage"));
+const MoviesPage = lazy(() => import("./pages/MoviesPage"));
+const MovieDetailsPage = lazy(() => import("./pages/MovieDetailsPage"));
+const NotFoundPage = lazy(() => import("./pages/NotFoundPage"));
 
 const App = () => {
   return (
@@ -18,10 +15,8 @@ const App = () => {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/movies" element={<MoviesPage />} />
-          <Route path="/movies/:movieId" element={<MovieDetailsPage />}>
-            <Route path="cast" element={<MovieCast />} />
-            <Route path="reviews" element={<MovieReviews />} />
-          </Route>
+          <Route path="/movies/:movieId/*" element={<MovieDetailsPage />} />
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </Suspense>
     </Router>

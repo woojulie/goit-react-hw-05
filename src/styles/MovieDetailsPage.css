@@ -1,0 +1,35 @@
+.movie-details {
+    display: flex;
+    gap: 2em;
+    padding: 2em;
+}
+
+.movie-poster-container {
+    position: sticky;
+    top: 20px;
+}
+
+.movie-poster {
+    max-width: 300px;
+    border-radius: 8px;
+}
+
+.movie-info {
+    max-width: 600px;
+}
+
+.movie-info h1 {
+    margin: 0;
+}
+
+.movie-links {
+    display: flex;
+    gap: 1em;
+    margin-top: 1em;
+}
+
+.movie-links a {
+    color: #333;
+    text-decoration: underline;
+    cursor: pointer;
+}
