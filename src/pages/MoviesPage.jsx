@@ -1,5 +1,5 @@
-// src/pages/MoviesPage.jsx
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import "../styles/MoviesPage.css";
 
@@ -9,48 +9,54 @@ const MoviesPage = () => {
   const [error, setError] = useState("");
 
   const handleSearch = async () => {
-    if (!query.trim()) {
-      setError("Please enter a movie title.");
+    if (!query) {
+      setError("Please enter a search query");
       return;
     }
-    setError("");
+
     try {
-      const response = await axios.get(`https://api.themoviedb.org/3/movie/`, {
-        headers: {
-          Authorization:
-            "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI2MWZmY2JiYzAwZWE0OWIzODFhYzY4MTc1MjRhOTk1NiIsIm5iZiI6MTczMTQ0MDIyMy4zNjM4NjYsInN1YiI6IjY3MzI1NDMzNmZjMDMxODI0YjA4NmM4NiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.ZH_rGNq1J7ukPhMtAMO5kQvaUBqrPlDYIpCA_O6PuAY",
-        },
-      });
+      const response = await axios.get(
+        `https://api.themoviedb.org/3/search/movie`,
+        {
+          params: {
+            api_key: "61ffcbbc00ea49b381ac6817524a9956",
+            query,
+          },
+        }
+      );
       setMovies(response.data.results);
+      setError("");
     } catch (error) {
-      console.error(error);
+      setError("Failed to fetch movies");
     }
   };
 
   return (
     <div className="movies-page">
-      <h1>Search Movies</h1>
+      <h2>Search Movies</h2>
       <div className="search-container">
         <input
           type="text"
+          placeholder="Enter movie name"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          placeholder="Enter movie title..."
         />
         <button onClick={handleSearch}>Search</button>
       </div>
       {error && <p className="error-message">{error}</p>}
-      <div className="movie-results">
+      <div className="movies-list">
         {movies.map((movie) => (
-          <div key={movie.id} className="movie-item">
+          <Link
+            to={`/movies/${movie.id}`}
+            key={movie.id}
+            className="movie-item"
+          >
             <img
               src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`}
               alt={movie.title}
-              className="movie-poster"
             />
-            <h3>{movie.title}</h3>
-            <p>{movie.release_date}</p>
-          </div>
+            <p>{movie.title}</p>
+          </Link>
         ))}
       </div>
     </div>
